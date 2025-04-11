@@ -1,30 +1,23 @@
-import React, {useEffect, useState} from "react";
-
-const Card = ({title}) => {
-    const [count, setCount] = useState(0)
-    const [hasLiked, setHasLiked] = useState(false)
-    useEffect(() => {
-        console.log(`${title} has been liked ${hasLiked}`)
-    }, [hasLiked]);
-    return (
-        <div onClick={() => setCount(prevState => prevState + 1)}>
-            <h2>{title}</h2>
-            <h1>{count || null}</h1>
-            <button onClick={() => setHasLiked(!hasLiked)}>
-                {hasLiked ? '❤' : '🤍'}
-            </button>
-        </div>
-    )
-}
+import React from "react";
+import Header from "./components/Header";
+import { Balance } from "./components/Balance";
+import { IncomeExpenses } from "./components/IncomeExpenses";
+import { TransactionList } from "./components/TransactionList";
+import { AddTransaction } from "./components/AddTransaction";
+import { GlobalProvider } from "./context/GlobalState";
 
 function App() {
-    return (
-        <div className="text-3xl font-bold underline">
-            <Card title="Star War"/>
-            <Card title="Avatar"/>
-            <Card title="The Lion King"/>
-        </div>
-    );
+  return (
+    <GlobalProvider>
+      <Header />
+      <div className="container">
+        <Balance />
+        <IncomeExpenses />
+        <TransactionList />
+        <AddTransaction />
+      </div>
+    </GlobalProvider>
+  );
 }
 
 export default App;
