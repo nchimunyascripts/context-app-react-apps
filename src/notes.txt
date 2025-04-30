@@ -1,0 +1,73 @@
+import React, { useState } from "react";
+import UserDetails from "./components/UserDetails";
+
+function App() {
+  const [item, setItem] = useState({
+    name: "",
+    description: "",
+  });
+  console.log(item);
+
+  return (
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          if (item.name && item.description) {
+            fetch("http://localhost:5000/api/items", {
+              method: "POST",
+              body: JSON.stringify({
+                name: item.name,
+                description: item.description,
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Success!");
+                console.log(data);
+              })
+              .catch((err) => console.log(err));
+          }
+        }}
+      >
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={item.name}
+            onChange={(e) => {
+              setItem((curr) => ({
+                ...curr,
+                name: e.target.value,
+              }));
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description:</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={item.description}
+            onChange={(e) => {
+              setItem((curr) => ({
+                ...curr,
+                description: e.target.value,
+              }));
+            }}
+          />
+        </div>
+        <button>Add Item</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
